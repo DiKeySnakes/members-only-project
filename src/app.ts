@@ -72,15 +72,15 @@ app.use(function (req, res, next) {
 // routes
 app.get('/', (req: Request, res: Response) => {
   if (!req.user) {
-    res.redirect('/auth/log-in');
+    return res.redirect('/auth/log-in');
   }
   if (res.locals.currentUser.membership) {
-    res.redirect('/message/club');
+    return res.redirect('/message/club');
   }
   if (req.user) {
-    res.redirect('/message/messages');
+    return res.redirect('/message/messages');
   } else {
-    res.redirect('/auth/log-in');
+    return res.redirect('/auth/log-in');
   }
 });
 
