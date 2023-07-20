@@ -11,7 +11,19 @@ import './config/passport.js';
 
 dotenv.config();
 
+import compression from 'compression';
+import helmet from 'helmet';
+
 const app: Express = express();
+
+// Set up rate limiter: maximum of twenty requests per minute
+import RateLimit from 'express-rate-limit';
+const limiter = RateLimit({
+  windowMs: 1 * 10 * 1000, // 10 seconds
+  max: 10,
+});
+// Apply rate limiter to all requests
+app.use(limiter);
 
 main().catch((err) => console.log(err));
 
@@ -21,6 +33,16 @@ async function main() {
     console.log(`Server is listening on port ${process.env.PORT}`);
   });
 }
+
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      'script-src': ["'self'", 'code.jquery.com', 'cdn.jsdelivr.net'],
+    },
+  })
+);
+
+app.use(compression()); // Compress all routes
 
 app.use(express.static('public'));
 app.set('views', './src/views');
@@ -47,12 +69,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-// auth routes
-app.use('/auth', authRoutes);
-
-// message routes
-app.use('/message', messageRoutes);
-
+// routes
 app.get('/', (req: Request, res: Response) => {
   if (!req.user) {
     res.redirect('/auth/log-in');
@@ -66,6 +83,12 @@ app.get('/', (req: Request, res: Response) => {
     res.redirect('/auth/log-in');
   }
 });
+
+// auth routes
+app.use('/auth', authRoutes);
+
+// message routes
+app.use('/message', messageRoutes);
 
 // 404 page
 app.use((req, res) => {
