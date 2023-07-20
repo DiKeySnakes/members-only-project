@@ -1,0 +1,20 @@
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
+
+  <body>
+    <%- include("./partials/nav.ejs") %>
+
+    <div class="create-blog content">
+      <h1>Wanna be a club member?</h1>
+      <h2>It's piece of cake</h2>
+      <form action="/auth/membership" method="POST">
+        <input name="password" type="hidden" value="It's piece of cake" />
+        <input name="passwordConfirmation" type="text" />
+        <button>Submit</button>
+        <%- include("./partials/errors.ejs") %>
+      </form>
+    </div>
+
+    <%- include("./partials/footer.ejs") %>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
+
+  <body>
+    <%- include("./partials/nav.ejs") %>
+
+    <div class="details content">
+      <h2>Message: <%= message.title %></h2>
+      <div class="content">
+        <% if (typeof message ==='object' && message) { %>
+        <p><strong>Body:</strong> <%= message.body %></p>
+        <hr />
+        <p><strong>Author:</strong> <%= message.user.username %></p>
+        <hr />
+        <p><strong>Created:</strong> <%= message.createdAt %></p>
+        <p><strong>Updated:</strong> <%= message.updatedAt %></p>
+        <% } %>
+      </div>
+
+      <hr />
+      <div class="confirm">
+        <p class="confirm">
+          <strong>Do you really want to delete this Message?</strong>
+        </p>
+
+        <form action="" method="POST">
+          <input
+            type="hidden"
+            name="id"
+            required="true"
+            value="<%=message._id%>" />
+          <button type="submit">Delete</button>
+          <%- include("./partials/errors.ejs") %>
+        </form>
+      </div>
+    </div>
+
+    <%- include("./partials/footer.ejs") %>
+  </body>
+</html>

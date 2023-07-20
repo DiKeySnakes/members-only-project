@@ -1,0 +1,29 @@
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
+
+  <body>
+    <%- include("./partials/nav.ejs") %>
+
+    <div class="details content">
+      <h2>Message: <%= message.title %></h2>
+      <div class="content">
+        <% if (typeof message ==='object' && message) { %>
+        <p><strong>Body:</strong> <%= message.body %></p>
+        <hr />
+        <p><strong>Author:</strong> <%= message.user.username %></p>
+        <hr />
+        <p><strong>Created:</strong> <%= message.createdAt %></p>
+        <p><strong>Updated:</strong> <%= message.updatedAt %></p>
+        <% } %>
+      </div>
+      <a class="edit" href="/message/<%= message._id %>/update">
+        <img src="/edit_black_24dp.svg" alt="edit icon" />
+      </a>
+      <a class="delete" href="/message/<%= message._id %>/delete">
+        <img src="/delete_black_24dp.svg" alt="delete icon" />
+      </a>
+    </div>
+
+    <%- include("./partials/footer.ejs") %>
+  </body>
+</html>

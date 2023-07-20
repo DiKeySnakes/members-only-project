@@ -1,0 +1,16 @@
+<nav>
+  <div class="site-title">
+    <a href="/"><h1>Members Only</h1></a>
+    <p>Private Club Chat</p>
+  </div>
+  <ul>
+    <% if (user) { %>
+    <li><h3><%= user.username %></h3></li>
+    <li><a href="/log-out">Log Out</a></li>
+    <% } else { %>
+    <li><a href="/sign-up">Sign Up</a></li>
+    <% } %>
+    <li><a href="/message/create">New Message</a></li>
+    <li><a href="/auth/membership">Private Club</a></li>
+  </ul>
+</nav>

@@ -1,0 +1,25 @@
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
+  <body>
+    <nav>
+      <div class="site-title">
+        <a href="/"><h1>Members Only</h1></a>
+        <p>Private Club Chat</p>
+      </div>
+      <ul>
+        <li><a href="/sign-up">Sign Up</a></li>
+      </ul>
+    </nav>
+    <div class="create-blog content">
+      <h1>Please Log In</h1>
+      <form action="/log-in" method="POST">
+        <label for="username">Username</label>
+        <input name="username" placeholder="username" type="text" />
+        <label for="password">Password</label>
+        <input name="password" type="password" />
+        <button>Log In</button>
+      </form>
+    </div>
+    <%- include("./partials/footer.ejs") %>
+  </body>
+</html>
