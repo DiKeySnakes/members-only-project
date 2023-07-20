@@ -7,7 +7,6 @@ import passport from 'passport';
 import MongoStore from 'connect-mongo';
 import authRoutes from './routes/authRoutes.js';
 import messageRoutes from './routes/messageRoutes.js';
-import { user_create_post } from './controllers/authController.js';
 import './config/passport.js';
 
 dotenv.config();
@@ -55,41 +54,17 @@ app.use('/auth', authRoutes);
 app.use('/message', messageRoutes);
 
 app.get('/', (req: Request, res: Response) => {
+  if (!req.user) {
+    res.redirect('/auth/log-in');
+  }
   if (res.locals.currentUser.membership) {
     res.redirect('/message/club');
   }
   if (req.user) {
     res.redirect('/message/messages');
   } else {
-    res.redirect('/log-in');
+    res.redirect('/auth/log-in');
   }
-});
-
-app.get('/sign-up', (req, res) =>
-  res.render('sign-up-form', { title: 'Sign Up' })
-);
-
-app.post('/sign-up', user_create_post);
-
-app.get('/log-in', (req, res) => {
-  res.render('log-in-form', { title: 'Log In' });
-});
-
-app.post(
-  '/log-in',
-  passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/sign-up',
-  })
-);
-
-app.get('/log-out', (req, res, next) => {
-  req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
-    res.redirect('/log-in');
-  });
 });
 
 // 404 page

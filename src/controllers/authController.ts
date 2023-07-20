@@ -1,9 +1,15 @@
 import User from '../models/user.js';
 import bcrypt from 'bcrypt';
+import passport from 'passport';
 
 import { body, Result, validationResult } from 'express-validator';
 import asyncHandler from 'express-async-handler';
 import { Request, Response, NextFunction } from 'express';
+
+// Show User create form on GET.
+const user_create_get = (req: Request, res: Response) => {
+  res.render('sign-up-form', { title: 'Sign Up' });
+};
 
 // Handle User create on POST.
 const user_create_post = [
@@ -81,16 +87,37 @@ const user_create_post = [
             password: hashedPassword,
           });
           await user.save();
-          res.redirect('/log-in');
+          res.redirect('/auth/log-in');
         } catch (err) {
           return next(err);
         }
       });
       // New user saved. Redirect to log in page.
-      res.redirect('/log-in');
+      res.redirect('/auth/log-in');
     }
   }),
 ];
+
+// Display Login form on GET.
+const log_in_get = (req: Request, res: Response) => {
+  res.render('log-in-form', { title: 'Log In' });
+};
+
+// Handle Login on POST.
+const log_in_post = passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/auth/sign-up',
+});
+
+// Handle Logout on GET.
+const log_out_get = (req: Request, res: Response, next: NextFunction) => {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect('/auth/log-in');
+  });
+};
 
 // Display Membership form on GET.
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -134,4 +161,12 @@ const membership_post = [
   }),
 ];
 
-export { user_create_post, membership_get, membership_post };
+export {
+  user_create_get,
+  user_create_post,
+  log_in_get,
+  log_in_post,
+  log_out_get,
+  membership_get,
+  membership_post,
+};

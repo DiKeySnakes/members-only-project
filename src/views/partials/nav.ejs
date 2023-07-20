@@ -6,9 +6,9 @@
   <ul>
     <% if (user) { %>
     <li><h3><%= user.username %></h3></li>
-    <li><a href="/log-out">Log Out</a></li>
+    <li><a href="/auth/log-out">Log Out</a></li>
     <% } else { %>
-    <li><a href="/sign-up">Sign Up</a></li>
+    <li><a href="/auth/sign-up">Sign Up</a></li>
     <% } %>
     <li><a href="/message/create">New Message</a></li>
     <li><a href="/auth/membership">Private Club</a></li>
